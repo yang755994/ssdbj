@@ -1,5 +1,6 @@
 package com.lovver.ssdbj.exception;
 
+@SuppressWarnings("serial")
 public class SSDBException extends Exception {
 	public SSDBException() {
 		super();
