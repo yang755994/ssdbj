@@ -26,7 +26,7 @@ public class SSDBConnection implements BaseConnection {
 
 	@Override
 	public void close() {
-		
+		protoConnection.close();
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class SSDBConnection implements BaseConnection {
 
 	@Override
 	public CommandExecutor getCommandExecutor() {
-		return null;
+		return protoConnection.getCommandExecutor();
 	}
 
 	@Override
@@ -59,8 +59,4 @@ public class SSDBConnection implements BaseConnection {
 		return protoConnection.execute(cmd, params);
 		
 	}
-	
-	
-	
-
 }
