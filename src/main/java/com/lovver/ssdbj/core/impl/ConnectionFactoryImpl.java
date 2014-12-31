@@ -10,7 +10,7 @@ import com.lovver.ssdbj.core.ProtocolConnection;
 import com.lovver.ssdbj.core.SSDBStream;
 import com.lovver.ssdbj.exception.SSDBException;
 
-public class SSDBConnectionFactoryImpl extends ConnectionFactory{
+public class ConnectionFactoryImpl extends ConnectionFactory{
 
 	@Override
 	public ProtocolConnection openConnectionImpl(String host, int port,
