@@ -127,5 +127,10 @@ public class SSDBProtocolImpl implements Protocol{
 			}
 			
 		};
+	}
+
+	@Override
+	public void auth() {
+		//TODO 不同的协议自实现验证
 	} 
 }

@@ -18,4 +18,6 @@ public interface ProtocolConnection extends BaseConnection {
 	 */
 	public String getProtocolVersion();
 	
+	public Protocol getProtocolImpl();
+	
 }

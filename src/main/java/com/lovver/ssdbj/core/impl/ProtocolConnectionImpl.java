@@ -99,6 +99,11 @@ public class ProtocolConnectionImpl implements ProtocolConnection {
 	public String getProtocolVersion() {
 		return protocolVersion;
 	}
+
+	@Override
+	public Protocol getProtocolImpl() {
+		return protocol;
+	}
 	
 	
 //    public List<byte[]> receive() throws SSDBException{ 

@@ -26,11 +26,11 @@ public class ConnectionFactoryImpl extends ConnectionFactory{
 			ssdbStream.getSocket().setKeepAlive(requireTCPKeepAlive);
 
             // Do authentication (until AuthenticationOk).
-            doAuthentication(ssdbStream, user, info.getProperty("password"));
             
             String protocolName=info.getProperty("protocolName","ssdb");
             String protocolVersion=info.getProperty("protocolVersion","1.0v");
 			ProtocolConnection conn=new ProtocolConnectionImpl(protocolName,protocolVersion,ssdbStream,user,info);
+			doAuthentication(conn, user, info.getProperty("password"));
 			return conn;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -38,24 +38,9 @@ public class ConnectionFactoryImpl extends ConnectionFactory{
 		return null;
 	}
 
-	private void doAuthentication(SSDBStream ssdbStream, final String user,
+	private void doAuthentication(ProtocolConnection conn, final String user,
 			final String password) throws SSDBException {
-//		List<byte[]> params=new ArrayList<byte[]>(){
-//			{
-//				add("kkk".getBytes());
-//				add("jjjj".getBytes());
-//			}
-//		};
-//		ssdbStream.sendCommand("set",params);
-//		ssdbStream.receive();
-//		
-//		List<byte[]> gparams=new ArrayList<byte[]>(){
-//			{
-//				add("tt".getBytes());
-//			}
-//		};
-//		ssdbStream.sendCommand("get",gparams);
-//		ssdbStream.receive();
+		conn.getProtocolImpl().auth();
 	}
 
 }
