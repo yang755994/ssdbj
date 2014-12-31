@@ -3,10 +3,7 @@ package com.lovver.ssdbj.core.impl;
 import java.util.List;
 import java.util.Properties;
 
-import org.apache.commons.lang.StringUtils;
-
 import com.lovver.ssdbj.core.BaseConnection;
-import com.lovver.ssdbj.core.BaseResultSet;
 import com.lovver.ssdbj.core.CommandExecutor;
 import com.lovver.ssdbj.core.ConnectionFactory;
 import com.lovver.ssdbj.core.ProtocolConnection;

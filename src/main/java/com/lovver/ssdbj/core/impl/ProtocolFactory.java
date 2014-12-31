@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import com.lovver.ssdbj.core.Protocol;
+import com.lovver.ssdbj.core.protocol.SSDBProtocolImpl;
 
 public class ProtocolFactory {
 	

@@ -1,4 +1,4 @@
-package com.lovver.ssdbj.core.impl;
+package com.lovver.ssdbj.core.protocol;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -10,6 +10,7 @@ import com.lovver.ssdbj.core.BaseResultSet;
 import com.lovver.ssdbj.core.CommandExecutor;
 import com.lovver.ssdbj.core.MemoryStream;
 import com.lovver.ssdbj.core.Protocol;
+import com.lovver.ssdbj.core.impl.SSDBResultSet;
 import com.lovver.ssdbj.exception.SSDBException;
 
 public class SSDBProtocolImpl implements Protocol{

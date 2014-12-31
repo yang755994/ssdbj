@@ -28,15 +28,17 @@ public class SSDBJTest {
 		SSDBConnection conn= dd.connect(info);
 		ArrayList<byte[]> setparams=new ArrayList<byte[]>(){
 			{
+				add("joliny".getBytes());
 				add("kkk".getBytes());
-				add("是的发生地发生123123".getBytes());
+				add("是的发生地发生1231sdfsfg23".getBytes());
 			}
 		};
-		conn.execute("set",setparams);
+		conn.execute("hset",setparams);
 		
 		ArrayList params=new ArrayList();
+		params.add("joliny".getBytes());
 		params.add("kkk".getBytes());
-		SSDBResultSet rs=conn.execute("get",params );
+		SSDBResultSet rs=conn.execute("hget",params );
 		System.out.println(new String(rs.getResult()));
 		
 		
