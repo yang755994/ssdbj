@@ -71,9 +71,7 @@ public class ProtocolConnectionImpl implements ProtocolConnection {
 
 	@Override
 	public BaseResultSet execute(String cmd,List<byte[]> params) throws SSDBException{
-//		sendCommand(cmd, params);
 		BaseResultSet resultSet=executor.execute(cmd, params);
-//		System.out.println(new String(result.get(1)));
 		return resultSet;
 	}
 
