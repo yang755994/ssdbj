@@ -12,6 +12,6 @@ public class SSDBProtocolFactory {
 		if(null==protocolName||"ssdb".equals(protocolName.toLowerCase())){
 			return new SSDBProtocolImpl(os,is);
 		}
-		return null;
+		throw new RuntimeException("not support prototol:"+protocolName);
 	}
 }
