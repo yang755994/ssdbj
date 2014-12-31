@@ -14,19 +14,19 @@ public class SSDBDriver {
 	public static final int DEBUG = 2;
 	public static final int INFO = 1;
 
-	public SSDBConnection connect(String url, Properties info)
+	public SSDBConnection connect(Properties info)
 			throws SSDBException {
 		 long timeout = timeout(info);
          if (timeout <= 0)
-             return makeConnection(url, info);
+             return makeConnection(info);
 
-         ConnectThread ct = new ConnectThread(url, info);
+         ConnectThread ct = new ConnectThread(info);
          new Thread(ct, "SSDB Server connection thread").start();
          return ct.getResult(timeout);
 	}
 	
-	private static SSDBConnection makeConnection(String url, Properties props) throws SSDBException { 
-        return new SSDBConnection(host(props), port(props), user(props), props, url);
+	private static SSDBConnection makeConnection(Properties props) throws SSDBException { 
+        return new SSDBConnection(host(props), port(props), user(props), props);
 	}
 	
 
@@ -45,8 +45,7 @@ public class SSDBDriver {
 	}
 
 	private static class ConnectThread implements Runnable {
-		ConnectThread(String url, Properties props) {
-			this.url = url;
+		ConnectThread( Properties props) {
 			this.props = props;
 		}
 
@@ -55,7 +54,7 @@ public class SSDBDriver {
 			Throwable error;
 
 			try {
-				conn = makeConnection(url, props);
+				conn = makeConnection(props);
 				error = null;
 			} catch (Throwable t) {
 				conn = null;
@@ -124,7 +123,6 @@ public class SSDBDriver {
 			}
 		}
 
-		private final String url;
 		private final Properties props;
 		private SSDBConnection result;
 		private Throwable resultException;
@@ -139,7 +137,7 @@ public class SSDBDriver {
     private static String host(Properties props)
     {
 //        return props.getProperty("SSDB_HOST", "localhost");
-        return props.getProperty("SSDB_HOST", "192.168.0.226");
+        return props.getProperty("SSDB_HOST", "localhost");
     }
 
     /**

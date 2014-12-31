@@ -3,6 +3,8 @@ package com.lovver.ssdbj.core.impl;
 import java.util.List;
 import java.util.Properties;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.lovver.ssdbj.core.BaseConnection;
 import com.lovver.ssdbj.core.BaseResultSet;
 import com.lovver.ssdbj.core.CommandExecutor;
@@ -14,8 +16,7 @@ public class SSDBConnection implements BaseConnection {
 	
     private ProtocolConnection protoConnection;
 	
-	public SSDBConnection(String host, int port, String user, Properties props,
-			String url) {
+	public SSDBConnection(String host, int port, String user, Properties props) {
 		try {
 			this.protoConnection=ConnectionFactory.openConnection(host, port, user,  props);
 			

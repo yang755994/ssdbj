@@ -18,10 +18,14 @@ public class SSDBJTest {
 		Properties info = new Properties();
 		info.setProperty("user", "test");
 		info.setProperty("password", "ddd");
+		info.setProperty("loginTimeout", "300");
 		info.setProperty("tcpKeepAlive", "true");
 		info.setProperty("protocolName", "ssdb");
 		info.setProperty("protocolVersion", "ddd");
-		SSDBConnection conn= dd.connect("192.168.0.226:8888", info);
+		
+		info.setProperty("SSDB_HOST", "192.168.0.226");
+		info.setProperty("SSDB_PORT", "8888");
+		SSDBConnection conn= dd.connect(info);
 		ArrayList<byte[]> setparams=new ArrayList<byte[]>(){
 			{
 				add("kkk".getBytes());
