@@ -31,5 +31,4 @@ public class SSDBResultSet implements BaseResultSet {
 	public void setResult(byte[] result) {
 		this.result = result;
 	}
-	
 }

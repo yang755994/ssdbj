@@ -5,6 +5,6 @@ package com.lovver.ssdbj.core;
  * 
  * @author jobell.jiang <jobell@qq.com> 
  */
-public interface ResultHandler {
-	
+public interface ResultHandler<T> {
+	public T handler(BaseResultSet resultSet);
 }
