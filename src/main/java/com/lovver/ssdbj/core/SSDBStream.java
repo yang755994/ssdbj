@@ -44,6 +44,13 @@ public class SSDBStream {
         socket.close();
     }
     
+    public boolean isConnection(){
+    	return socket.isConnected();
+    }
+    
+    public boolean isBound(){
+    	return socket.isBound();
+    }
     /**
      * Send an array of bytes to the backend
      *

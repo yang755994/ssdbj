@@ -6,22 +6,25 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.lovver.ssdbj.core.BaseResultSet;
+import com.lovver.ssdbj.core.CommandExecutor;
 import com.lovver.ssdbj.core.MemoryStream;
 import com.lovver.ssdbj.core.Protocol;
 import com.lovver.ssdbj.exception.SSDBException;
 
 public class SSDBProtocolImpl implements Protocol{
 	private String protocolName="ssdb";
+	private String protocolVersion="1.0v";
 	
 	private MemoryStream input = new MemoryStream();
 	private OutputStream outputStream;
 	private InputStream inputStream;
-    private Protocol protocol;
+//    private Protocol protocol;
 	
 	public SSDBProtocolImpl(OutputStream os,InputStream is){
 		this.outputStream=os;
 		this.inputStream=is;
-		protocol=SSDBProtocolFactory.createSSDBProtocolImpl(protocolName,outputStream,inputStream);
+//		protocol=SSDBProtocolFactory.createSSDBProtocolImpl(protocolName,outputStream,inputStream);
 	}
 	
 	public void sendCommand(String cmd,List<byte[]> params)throws SSDBException {
@@ -104,5 +107,25 @@ public class SSDBProtocolImpl implements Protocol{
 	@Override
 	public String getProtocol() {
 		return protocolName;
+	}
+
+	@Override
+	public String getProtocolVersion() {
+		return protocolVersion;
+	}
+
+	@Override
+	public CommandExecutor getCommandExecutor() {
+		return new CommandExecutor(){
+
+			@Override
+			public BaseResultSet execute(String cmd, List<byte[]> params)
+					throws SSDBException {
+				sendCommand(cmd,params);
+				List<byte[]> result=receive();
+				return new SSDBResultSet(new String(result.get(0)),result.get(1));
+			}
+			
+		};
 	} 
 }

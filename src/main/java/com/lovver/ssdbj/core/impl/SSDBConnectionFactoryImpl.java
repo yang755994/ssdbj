@@ -10,7 +10,7 @@ import com.lovver.ssdbj.core.ProtocolConnection;
 import com.lovver.ssdbj.core.SSDBStream;
 import com.lovver.ssdbj.exception.SSDBException;
 
-public class ConnectionFactoryImpl extends ConnectionFactory{
+public class SSDBConnectionFactoryImpl extends ConnectionFactory{
 
 	@Override
 	public ProtocolConnection openConnectionImpl(String host, int port,
@@ -27,7 +27,10 @@ public class ConnectionFactoryImpl extends ConnectionFactory{
 
             // Do authentication (until AuthenticationOk).
             doAuthentication(ssdbStream, user, info.getProperty("password"));
-			ProtocolConnection conn=new ProtocolConnectionImpl(ssdbStream,user,info);
+            
+            String protocolName=info.getProperty("protocolName","ssdb");
+            String protocolVersion=info.getProperty("protocolVersion","1.0v");
+			ProtocolConnection conn=new ProtocolConnectionImpl(protocolName,protocolVersion,ssdbStream,user,info);
 			return conn;
 		} catch (IOException e) {
 			e.printStackTrace();

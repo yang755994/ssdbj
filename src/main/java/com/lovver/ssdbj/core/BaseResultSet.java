@@ -8,6 +8,6 @@ import java.util.List;
  * @author jobell.jiang <jobell@qq.com>
  */
 public interface BaseResultSet {
-	public List<byte[]> getResult();
+	public byte[] getResult();
 	public String getStatus();
 }

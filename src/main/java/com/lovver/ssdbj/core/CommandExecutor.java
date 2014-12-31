@@ -7,4 +7,5 @@ import com.lovver.ssdbj.exception.SSDBException;
 public interface CommandExecutor {
 	
 	public BaseResultSet execute(String cmd,List<byte[]> params) throws SSDBException;
+	
 }

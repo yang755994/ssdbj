@@ -17,4 +17,5 @@ public interface ProtocolConnection extends BaseConnection {
 	 * @return
 	 */
 	public String getProtocolVersion();
+	
 }

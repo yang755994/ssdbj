@@ -9,7 +9,7 @@ public class SSDBProtocolFactory {
 	
 	
 	public static Protocol createSSDBProtocolImpl(String protocolName,OutputStream os,InputStream is){
-		if(null==protocolName){
+		if(null==protocolName||"ssdb".equals(protocolName.toLowerCase())){
 			return new SSDBProtocolImpl(os,is);
 		}
 		return null;

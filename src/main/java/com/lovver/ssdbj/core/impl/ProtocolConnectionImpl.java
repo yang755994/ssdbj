@@ -1,6 +1,7 @@
 package com.lovver.ssdbj.core.impl;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Properties;
 
@@ -23,15 +24,20 @@ public class ProtocolConnectionImpl implements ProtocolConnection {
 	private String user;
 	private CommandExecutor executor;
     private Protocol protocol;
+    private String protocolName;
+    private String protocolVersion;
 
 	private boolean closed = false;
 
-	public ProtocolConnectionImpl(SSDBStream stream, String user,
+	public ProtocolConnectionImpl(String protocolName,String protocolVersion,SSDBStream stream, String user,
 			Properties infos) {
+		this.protocolName=protocolName;
+		this.protocolVersion=protocolVersion;
 		this.stream = stream;
 		this.user = user;
 		this.props = infos;
-		this.executor=null;
+		this.protocol=SSDBProtocolFactory.createSSDBProtocolImpl(protocolName,stream.getOutputStream(),stream.getInputStream());
+		this.executor=protocol.getCommandExecutor();
 	}
 
 	@Override
@@ -55,7 +61,7 @@ public class ProtocolConnectionImpl implements ProtocolConnection {
 
 	@Override
 	public boolean isConnection() {
-		return false;
+		return stream.isConnection();
 	}
 
 	@Override
@@ -65,41 +71,44 @@ public class ProtocolConnectionImpl implements ProtocolConnection {
 
 	@Override
 	public BaseResultSet execute(String cmd,List<byte[]> params) throws SSDBException{
-		sendCommand(cmd, params);
-		List<byte[]>result=receive();
-		System.out.println(new String(result.get(1)));
-		return null;
+//		sendCommand(cmd, params);
+		BaseResultSet resultSet=executor.execute(cmd, params);
+//		System.out.println(new String(result.get(1)));
+		return resultSet;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T unwrap(Class<T> iface) throws SSDBException {
-		return null;
+		if (iface.isAssignableFrom(getClass()))        {
+            return (T) this;
+        }
+        throw new SSDBException("Cannot unwrap to " + iface.getName());
 	}
 
 	@Override
 	public boolean isWrapperFor(Class<?> iface) throws SSDBException {
-		return false;
+		 return iface.isAssignableFrom(getClass());
 	}
 
 	@Override
 	public String getProtocol() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return protocolName;
 	}
 
 	@Override
 	public String getProtocolVersion() {
-		// TODO Auto-generated method stub
-		return null;
+		return protocolVersion;
 	}
 	
 	
-    public List<byte[]> receive() throws SSDBException{ 
-    	return protocol.receive();
-    }
-    
-    public void sendCommand(String  cmd,List<byte[]> params) throws SSDBException{ 
-    	this.protocol.sendCommand(cmd, params);
-    }
+//    public List<byte[]> receive() throws SSDBException{ 
+//    	return protocol.receive();
+//    }
+//    
+//    public void sendCommand(String  cmd,List<byte[]> params) throws SSDBException{ 
+//    	this.protocol.sendCommand(cmd, params);
+//    }
 
 }
