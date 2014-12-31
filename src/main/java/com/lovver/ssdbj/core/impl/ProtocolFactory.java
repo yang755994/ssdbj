@@ -5,7 +5,7 @@ import java.io.OutputStream;
 
 import com.lovver.ssdbj.core.Protocol;
 
-public class SSDBProtocolFactory {
+public class ProtocolFactory {
 	
 	
 	public static Protocol createSSDBProtocolImpl(String protocolName,OutputStream os,InputStream is){

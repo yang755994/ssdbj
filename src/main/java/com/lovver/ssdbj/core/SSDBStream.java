@@ -8,7 +8,7 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.util.List;
 
-import com.lovver.ssdbj.core.impl.SSDBProtocolFactory;
+import com.lovver.ssdbj.core.impl.ProtocolFactory;
 import com.lovver.ssdbj.exception.SSDBException;
 
 public class SSDBStream {
