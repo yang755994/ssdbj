@@ -55,8 +55,8 @@ public class SSDBConnection implements BaseConnection {
 	}
 
 	@Override
-	public BaseResultSet execute(String cmd,List<byte[]> params) throws SSDBException {
-		return protoConnection.execute(cmd, params);
+	public SSDBResultSet execute(String cmd,List<byte[]> params) throws SSDBException {
+		return (SSDBResultSet) protoConnection.execute(cmd, params);
 		
 	}
 }
