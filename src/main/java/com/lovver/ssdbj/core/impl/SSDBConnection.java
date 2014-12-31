@@ -3,6 +3,7 @@ package com.lovver.ssdbj.core.impl;
 import java.util.List;
 import java.util.Properties;
 
+import com.lovver.ssdbj.core.BaseResultSet;
 import com.lovver.ssdbj.core.CommandExecutor;
 import com.lovver.ssdbj.core.ConnectionFactory;
 import com.lovver.ssdbj.core.ProtocolConnection;
@@ -53,8 +54,8 @@ public class SSDBConnection implements  PoolConnection {
 	}
 
 	@Override
-	public SSDBResultSet execute(String cmd,List<byte[]> params) throws SSDBException {
-		return (SSDBResultSet) protoConnection.execute(cmd, params);
+	public BaseResultSet execute(String cmd,List<byte[]> params) throws SSDBException {
+		return  protoConnection.execute(cmd, params);
 		
 	}
 

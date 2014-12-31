@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 import java.util.Properties;
 
+import com.lovver.ssdbj.core.BaseResultSet;
 import com.lovver.ssdbj.core.SSDBDriver;
 import com.lovver.ssdbj.core.impl.SSDBConnection;
-import com.lovver.ssdbj.core.impl.SSDBResultSet;
 
 
 
@@ -39,7 +39,7 @@ public class SSDBJTest {
 		ArrayList params=new ArrayList();
 		params.add("joliny".getBytes());
 		params.add("kkk".getBytes());
-		SSDBResultSet rs=conn.execute("hget",params );
+		BaseResultSet rs=conn.execute("hget",params );
 		System.out.println(new String(rs.getResult()));
 	}
 
