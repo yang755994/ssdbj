@@ -104,14 +104,10 @@ public class ProtocolConnectionImpl implements ProtocolConnection {
 	public Protocol getProtocolImpl() {
 		return protocol;
 	}
-	
-	
-//    public List<byte[]> receive() throws SSDBException{ 
-//    	return protocol.receive();
-//    }
-//    
-//    public void sendCommand(String  cmd,List<byte[]> params) throws SSDBException{ 
-//    	this.protocol.sendCommand(cmd, params);
-//    }
 
+	@Override
+	public boolean executeUpdate(String cmd, List<byte[]> params)
+			throws SSDBException {
+		return executor.executeUpdate(cmd, params); 
+	}
 }

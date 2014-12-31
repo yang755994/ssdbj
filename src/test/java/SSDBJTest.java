@@ -38,6 +38,9 @@ public class SSDBJTest {
 		params.add("kkk".getBytes());
 		SSDBResultSet rs=conn.execute("get",params );
 		System.out.println(new String(rs.getResult()));
+		
+		
+		
 	}
 
 }

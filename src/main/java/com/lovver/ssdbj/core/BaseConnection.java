@@ -40,4 +40,13 @@ public interface BaseConnection extends Wrapper {
 	 * @throws SSDBException
 	 */
 	public BaseResultSet execute(String cmd,List<byte[]> params)throws SSDBException;
+	
+	/**
+	 * 执行命令并且更新db
+	 * 
+	 * @param cmd
+	 * @param params
+	 * @throws SSDBException
+	 */
+	public boolean executeUpdate(String cmd,List<byte[]> params)throws SSDBException;
 }

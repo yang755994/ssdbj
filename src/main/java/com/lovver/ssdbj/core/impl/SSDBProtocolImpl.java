@@ -125,6 +125,18 @@ public class SSDBProtocolImpl implements Protocol{
 				List<byte[]> result=receive();
 				return new SSDBResultSet(new String(result.get(0)),result.get(1));
 			}
+
+			@Override
+			public boolean executeUpdate(String cmd, List<byte[]> params)
+					throws SSDBException {
+				try{
+					sendCommand(cmd,params);
+					List<byte[]> result=receive();
+					return "ok".equals(new String(result.get(0)));
+				}catch(Exception e){
+					return false;
+				}
+			}
 			
 		};
 	}

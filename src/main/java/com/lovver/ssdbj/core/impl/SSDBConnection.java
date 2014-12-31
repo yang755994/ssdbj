@@ -60,4 +60,10 @@ public class SSDBConnection implements BaseConnection {
 		return (SSDBResultSet) protoConnection.execute(cmd, params);
 		
 	}
+
+	@Override
+	public boolean executeUpdate(String cmd, List<byte[]> params)
+			throws SSDBException {
+		return protoConnection.executeUpdate(cmd, params);
+	}
 }

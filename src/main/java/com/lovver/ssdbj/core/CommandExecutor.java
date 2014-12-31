@@ -8,4 +8,6 @@ public interface CommandExecutor {
 	
 	public BaseResultSet execute(String cmd,List<byte[]> params) throws SSDBException;
 	
+	public boolean executeUpdate(String cmd,List<byte[]> params) throws SSDBException;
+	
 }
