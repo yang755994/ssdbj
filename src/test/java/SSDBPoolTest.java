@@ -25,8 +25,8 @@ public class SSDBPoolTest {
 		info.setProperty("tcpKeepAlive", "true");
 		info.setProperty("protocolName", "ssdb");
 		info.setProperty("protocolVersion", "1.0");
-		PooledConnectionFactory<BaseConnection> factory = new PooledConnectionFactory("192.168.0.226",8888,null,info);
-		ConnectionPool pools = new ConnectionPool(factory,new GenericObjectPoolConfig(),new AbandonedConfig());
+//		PooledConnectionFactory<BaseConnection> factory = new PooledConnectionFactory("192.168.0.226",8888,null,info);
+		ConnectionPool pools = new ConnectionPool("192.168.0.226",8888,null,info);
 		PoolConnection conn=(PoolConnection) pools.borrowObject();
 		
 		ArrayList params=new ArrayList();
