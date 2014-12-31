@@ -13,6 +13,7 @@ public class SSDBJTest {
 	 * @param args
 	 * @throws Exception 
 	 */
+	@SuppressWarnings({ "serial", "rawtypes", "unchecked" })
 	public static void main(String[] args) throws Exception {
 		SSDBDriver dd= new SSDBDriver();
 		Properties info = new Properties();
