@@ -6,6 +6,7 @@ import java.util.Properties;
 
 import com.lovver.ssdbj.core.BaseResultSet;
 import com.lovver.ssdbj.core.CommandExecutor;
+import com.lovver.ssdbj.core.Protocol;
 import com.lovver.ssdbj.core.ProtocolConnection;
 import com.lovver.ssdbj.core.SSDBStream;
 import com.lovver.ssdbj.exception.SSDBException;
@@ -20,6 +21,8 @@ public class ProtocolConnectionImpl implements ProtocolConnection {
 	private SSDBStream stream;
 	private Properties props;
 	private String user;
+	private CommandExecutor executor;
+    private Protocol protocol;
 
 	private boolean closed = false;
 
@@ -28,6 +31,7 @@ public class ProtocolConnectionImpl implements ProtocolConnection {
 		this.stream = stream;
 		this.user = user;
 		this.props = infos;
+		this.executor=null;
 	}
 
 	@Override
@@ -56,13 +60,13 @@ public class ProtocolConnectionImpl implements ProtocolConnection {
 
 	@Override
 	public CommandExecutor getCommandExecutor() {
-		return null;
+		return executor;
 	}
 
 	@Override
 	public BaseResultSet execute(String cmd,List<byte[]> params) throws SSDBException{
-		stream.sendCommand(cmd, params);
-		List<byte[]>result=stream.receive();
+		sendCommand(cmd, params);
+		List<byte[]>result=receive();
 		System.out.println(new String(result.get(1)));
 		return null;
 	}
@@ -88,5 +92,14 @@ public class ProtocolConnectionImpl implements ProtocolConnection {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
+    public List<byte[]> receive() throws SSDBException{ 
+    	return protocol.receive();
+    }
+    
+    public void sendCommand(String  cmd,List<byte[]> params) throws SSDBException{ 
+    	this.protocol.sendCommand(cmd, params);
+    }
 
 }

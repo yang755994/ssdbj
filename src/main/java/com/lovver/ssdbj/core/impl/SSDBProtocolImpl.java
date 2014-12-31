@@ -7,18 +7,21 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.lovver.ssdbj.core.MemoryStream;
-import com.lovver.ssdbj.core.SSDBProtocol;
+import com.lovver.ssdbj.core.Protocol;
 import com.lovver.ssdbj.exception.SSDBException;
 
-public class SSDBProtocolImpl implements SSDBProtocol{
+public class SSDBProtocolImpl implements Protocol{
+	private String protocolName="ssdb";
 	
 	private MemoryStream input = new MemoryStream();
-	private OutputStream os;
-	private InputStream is;
+	private OutputStream outputStream;
+	private InputStream inputStream;
+    private Protocol protocol;
 	
 	public SSDBProtocolImpl(OutputStream os,InputStream is){
-		this.os=os;
-		this.is=is;
+		this.outputStream=os;
+		this.inputStream=is;
+		protocol=SSDBProtocolFactory.createSSDBProtocolImpl(protocolName,outputStream,inputStream);
 	}
 	
 	public void sendCommand(String cmd,List<byte[]> params)throws SSDBException {
@@ -37,8 +40,8 @@ public class SSDBProtocolImpl implements SSDBProtocol{
 		}
 		buf.write('\n');
 		try{
-			os.write(buf.buf, buf.data, buf.size);
-			os.flush();
+			outputStream.write(buf.buf, buf.data, buf.size);
+			outputStream.flush();
 		}catch(Exception e){
 			throw new SSDBException(e);
 		}
@@ -54,7 +57,7 @@ public class SSDBProtocolImpl implements SSDBProtocol{
 					return ret;
 				}
 				byte[] bs = new byte[8192];
-				int len = is.read(bs);
+				int len = inputStream.read(bs);
 				//System.out.println("<< " + (new MemoryStream(bs, 0, len)).printable());
 				input.write(bs, 0, len);
 			}
@@ -96,5 +99,10 @@ public class SSDBProtocolImpl implements SSDBProtocol{
 			list.add(data);
 		}
 		return null;		
+	}
+
+	@Override
+	public String getProtocol() {
+		return protocolName;
 	} 
 }

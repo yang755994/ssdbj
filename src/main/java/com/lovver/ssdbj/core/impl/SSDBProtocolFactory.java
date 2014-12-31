@@ -3,13 +3,13 @@ package com.lovver.ssdbj.core.impl;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import com.lovver.ssdbj.core.SSDBProtocol;
+import com.lovver.ssdbj.core.Protocol;
 
 public class SSDBProtocolFactory {
 	
 	
-	public static SSDBProtocol createSSDBProtocolImpl(String protocol,OutputStream os,InputStream is){
-		if(null==protocol){
+	public static Protocol createSSDBProtocolImpl(String protocolName,OutputStream os,InputStream is){
+		if(null==protocolName){
 			return new SSDBProtocolImpl(os,is);
 		}
 		return null;

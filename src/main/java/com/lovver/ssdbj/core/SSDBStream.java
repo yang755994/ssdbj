@@ -15,10 +15,8 @@ public class SSDBStream {
     private final String host;
     private final int port;
     private Socket socket;
-    private InputStream ssdb_input;
-    private OutputStream ssdb_output;
-    private SSDBProtocol protocol;
-    
+    private InputStream inputStream;
+    private OutputStream outputStream;
     
     
     public SSDBStream(String host, int port) throws IOException
@@ -31,28 +29,19 @@ public class SSDBStream {
     public void changeSocket(Socket socket) throws IOException {
         this.socket = socket;
         socket.setTcpNoDelay(true);
-        ssdb_input = new BufferedInputStream(socket.getInputStream(),8192);
-        ssdb_output = new BufferedOutputStream(socket.getOutputStream(), 8192);
-        protocol=SSDBProtocolFactory.createSSDBProtocolImpl(null,ssdb_output,ssdb_input);
+        inputStream = new BufferedInputStream(socket.getInputStream(),8192);
+        outputStream = new BufferedOutputStream(socket.getOutputStream(), 8192);
     }
 
 
     public void flush() throws IOException {
-        ssdb_output.flush();
+        outputStream.flush();
     }
     
     public void close() throws IOException    {
-        ssdb_output.close();
-        ssdb_input.close();
+        outputStream.close();
+        inputStream.close();
         socket.close();
-    }
-    
-    public List<byte[]> receive() throws SSDBException{ 
-    	return protocol.receive();
-    }
-    
-    public void sendCommand(String  cmd,List<byte[]> params) throws SSDBException{ 
-    	this.protocol.sendCommand(cmd, params);
     }
     
     /**
@@ -62,7 +51,7 @@ public class SSDBStream {
      * @exception IOException if an I/O error occurs
      */
     public void Send(byte buf[]) throws IOException    {
-        ssdb_output.write(buf);
+        outputStream.write(buf);
     }
 	
 	public Socket getSocket() {
@@ -80,5 +69,13 @@ public class SSDBStream {
 
 	public int getPort() {
 		return port;
+	}
+
+	public InputStream getInputStream() {
+		return inputStream;
+	}
+
+	public OutputStream getOutputStream() {
+		return outputStream;
 	}
 }
