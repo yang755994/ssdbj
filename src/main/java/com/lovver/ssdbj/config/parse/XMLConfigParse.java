@@ -83,7 +83,11 @@ public class XMLConfigParse implements ConfigParser {
 			List<Element> lstXCluster=x_clusters.getChildren("cluster");
 			for(Element xCluster:lstXCluster){
 				Cluster cluster = new Cluster();
-				cluster.setId(xCluster.getAttributeValue("id"));
+				String cid=xCluster.getAttributeValue("id");
+				if(StringUtils.isEmpty(cid)){
+					throw new SSDBJConfigException("cluster's node [id] must not empty!");
+				}
+				cluster.setId(cid);
 				String notfound_master_retry=xCluster.getAttributeValue("notfound_master_retry");
 				if(StringUtils.isEmpty(notfound_master_retry)){
 					notfound_master_retry="false";
@@ -121,6 +125,6 @@ public class XMLConfigParse implements ConfigParser {
 			e.printStackTrace();
 		}
 		
-		return null;
+		return lstCluster;
 	}
 }
