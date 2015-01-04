@@ -38,6 +38,7 @@ public class SSDBJ {
 	
 	
 	private static LoadBalanceFactory balanceFactory=LoadBalanceFactory.getInstance();
+	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static SSDBResultSet execute(String cluster_id,SSDBCmd cmd,List<String> params) throws Exception{
 		LoadBalance lb = balanceFactory.createLoadBalance(cluster_id);
@@ -55,6 +56,30 @@ public class SSDBJ {
 				bP.add(p.getBytes());
 			}
 			return (SSDBResultSet) conn.execute(cmd.getCmd(), bP);
+		}catch(Exception e){
+			throw e;
+		}finally{
+			conn.close();
+		}
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static void executeUpdate(String cluster_id,SSDBCmd  cmd,List<String> params) throws Exception{
+		LoadBalance lb = balanceFactory.createLoadBalance(cluster_id);
+		SSDBPoolConnection conn=null;
+		try{
+			SSDBDataSource ds=null;
+			if(cmd.getSlave()){
+				ds=lb.getReadDataSource(cluster_id);
+			}else{
+				ds=lb.getWriteDataSource(cluster_id);
+			}
+			conn=ds.getConnection();
+			List<byte[]> bP=new ArrayList<byte[]>();
+			for(String p:params){
+				bP.add(p.getBytes());
+			}
+			conn.executeUpdate(cmd.getCmd(), bP);
 		}catch(Exception e){
 			throw e;
 		}finally{
