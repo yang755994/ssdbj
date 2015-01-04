@@ -7,15 +7,15 @@ import org.apache.commons.pool2.impl.AbandonedConfig;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
-public class ConnectionPool  extends GenericObjectPool<PoolConnection> {
+public class SSDBConnectionPools  extends GenericObjectPool<SSDBPoolConnection> {
 
-	private ConnectionPool(PooledObjectFactory<PoolConnection> factory,
+	private SSDBConnectionPools(PooledObjectFactory<SSDBPoolConnection> factory,
 			GenericObjectPoolConfig config, AbandonedConfig abandonedConfig) {
 		super(factory, config, abandonedConfig);
 	}
 	
 
-	public ConnectionPool(String host, int port, String user, Properties props){
-		this(new PooledConnectionFactory<PoolConnection>(host,port,user,props),new GenericObjectPoolConfig(),new AbandonedConfig());
+	public SSDBConnectionPools(String host, int port, String user, Properties props){
+		this(new SSDBPooledConnectionFactory<SSDBPoolConnection>(host,port,user,props),new GenericObjectPoolConfig(),new AbandonedConfig());
 	}
 }

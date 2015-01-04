@@ -10,13 +10,14 @@ import org.apache.commons.pool2.impl.DefaultPooledObject;
 import com.lovver.ssdbj.core.BaseConnection;
 import com.lovver.ssdbj.core.BaseResultSet;
 import com.lovver.ssdbj.core.SSDBDriver;
+import com.lovver.ssdbj.core.impl.SSDBConnection;
 import com.lovver.ssdbj.exception.SSDBException;
 
-public class PooledConnectionFactory<T> extends BasePooledObjectFactory<T> {
+public class SSDBPooledConnectionFactory<T> extends BasePooledObjectFactory<T> {
 	private static SSDBDriver driver= new SSDBDriver();
 	
 	private Properties props;
-	public PooledConnectionFactory(String host, int port, String user, Properties props){
+	public SSDBPooledConnectionFactory(String host, int port, String user, Properties props){
 		
 		this.props=props;
 		this.props.setProperty("SSDB_HOST", host);
@@ -32,9 +33,10 @@ public class PooledConnectionFactory<T> extends BasePooledObjectFactory<T> {
 		return (T) driver.connect(props);
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	public PooledObject<T> wrap(T obj) {
-		return new DefaultPooledObject<T>(obj);
+		return new DefaultPooledObject<T>((T) new SSDBPoolConnection((SSDBConnection)obj));
 	}
 
 	@Override

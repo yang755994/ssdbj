@@ -6,9 +6,9 @@ import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
 import com.lovver.ssdbj.core.BaseConnection;
 import com.lovver.ssdbj.core.impl.SSDBResultSet;
-import com.lovver.ssdbj.pool.ConnectionPool;
-import com.lovver.ssdbj.pool.PoolConnection;
-import com.lovver.ssdbj.pool.PooledConnectionFactory;
+import com.lovver.ssdbj.pool.SSDBConnectionPools;
+import com.lovver.ssdbj.pool.SSDBPoolConnection;
+import com.lovver.ssdbj.pool.SSDBPooledConnectionFactory;
 
 
 public class SSDBPoolTest {
@@ -26,8 +26,8 @@ public class SSDBPoolTest {
 		info.setProperty("protocolName", "ssdb");
 		info.setProperty("protocolVersion", "1.0");
 //		PooledConnectionFactory<BaseConnection> factory = new PooledConnectionFactory("192.168.0.226",8888,null,info);
-		ConnectionPool pools = new ConnectionPool("192.168.0.226",8888,null,info);
-		PoolConnection conn=(PoolConnection) pools.borrowObject();
+		SSDBConnectionPools pools = new SSDBConnectionPools("192.168.0.226",8888,null,info);
+		SSDBPoolConnection conn= pools.borrowObject();
 		
 		ArrayList params=new ArrayList();
 		params.add("joliny".getBytes());
