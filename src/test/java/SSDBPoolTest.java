@@ -56,7 +56,6 @@ public class SSDBPoolTest {
 					System.out.println(new String(key)+"====="+new String(items.get(key)));
 				}
 				
-				
 				ArrayList<byte[]> scan_params=new ArrayList();
 				scan_params.add("".getBytes());
 				scan_params.add("".getBytes());
