@@ -9,6 +9,7 @@ import com.lovver.ssdbj.core.impl.SSDBConnection;
 import com.lovver.ssdbj.exception.SSDBException;
 
 public class SSDBPoolConnection<T extends SSDBConnection> implements  BaseConnection{
+	private SSDBConnectionPools pools;
 	
 	private T ori_conn=null;
 	public SSDBPoolConnection(T ssdb_conn){
@@ -27,7 +28,7 @@ public class SSDBPoolConnection<T extends SSDBConnection> implements  BaseConnec
 
 	@Override
 	public void close() {
-		ori_conn.close();
+		pools.returnObject(this);
 	}
 
 	@Override
@@ -55,6 +56,10 @@ public class SSDBPoolConnection<T extends SSDBConnection> implements  BaseConnec
 	public boolean executeUpdate(String cmd, List<byte[]> params)
 			throws SSDBException {
 		return ori_conn.executeUpdate(cmd, params);
+	}
+
+	public void setPools(SSDBConnectionPools pools) {
+		this.pools = pools;
 	}
 	
 }
