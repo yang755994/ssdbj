@@ -39,7 +39,7 @@ public class SSDBJTest {
 		ArrayList params=new ArrayList();
 		params.add("joliny".getBytes());
 		params.add("kkk".getBytes());
-		BaseResultSet rs=conn.execute("hget",params );
+		BaseResultSet<byte[]> rs=conn.execute("hget",params );
 		System.out.println(new String(rs.getResult()));
 	}
 

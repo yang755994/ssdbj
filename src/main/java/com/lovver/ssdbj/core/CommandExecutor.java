@@ -10,4 +10,5 @@ public interface CommandExecutor {
 	
 	public boolean executeUpdate(String cmd,List<byte[]> params) throws SSDBException;
 	
+	
 }

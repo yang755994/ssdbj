@@ -1,21 +1,29 @@
 package com.lovver.ssdbj.core.impl;
 
+import java.util.List;
+
 import com.lovver.ssdbj.core.BaseResultSet;
 
-public class SSDBResultSet implements BaseResultSet {
-	
+public class SSDBResultSet<T> implements BaseResultSet<T> {
+	public List<byte[]> raw;
 	private String status;
-	private byte[] result;
+	private T result;
+	private Exception e;
 	
-	
-	public SSDBResultSet(String status, byte[] result) {
+	public SSDBResultSet(String status, List<byte[]> raw,T result) {
 		super();
 		this.status = status;
-		this.result = result;
+		this.raw = raw;
+		this.result=result;
+	}
+	
+	public SSDBResultSet(String status, Exception e) {
+		this.status = status;
+		this.e = e;
 	}
 
 	@Override
-	public byte[] getResult() {
+	public T getResult() {
 		return result;
 	}
 	
@@ -28,7 +36,15 @@ public class SSDBResultSet implements BaseResultSet {
 		this.status = status;
 	}
 
-	public void setResult(byte[] result) {
+	public void setResult(T result) {
 		this.result = result;
+	}
+
+	public Exception getE() {
+		return e;
+	}
+
+	public void setE(Exception e) {
+		this.e = e;
 	}
 }

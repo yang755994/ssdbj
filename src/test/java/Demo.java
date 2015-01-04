@@ -8,7 +8,7 @@ public class Demo {
 		SSDB ssdb = null;
 		Response resp;
 		byte[] b;
-		ssdb = new SSDB("127.0.0.1", 8888);
+		ssdb = new SSDB("192.168.0.226", 8888);
 
 		resp = ssdb.request("qpush", "q", "a");
 		for(int i=1; i<resp.raw.size(); i+=2){

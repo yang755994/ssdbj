@@ -4,12 +4,18 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
 
 import com.lovver.ssdbj.core.BaseResultSet;
 import com.lovver.ssdbj.core.CommandExecutor;
 import com.lovver.ssdbj.core.MemoryStream;
 import com.lovver.ssdbj.core.Protocol;
+import com.lovver.ssdbj.core.SSDBCmd;
+import com.lovver.ssdbj.core.Stream2ResultSet;
 import com.lovver.ssdbj.core.impl.SSDBResultSet;
 import com.lovver.ssdbj.exception.SSDBException;
 
@@ -120,11 +126,131 @@ public class SSDBProtocolImpl implements Protocol{
 		return new CommandExecutor(){
 
 			@Override
-			public BaseResultSet execute(String cmd, List<byte[]> params)
+			public BaseResultSet execute(final String cmd, List<byte[]> params)
 					throws SSDBException {
 				sendCommand(cmd,params);
-				List<byte[]> result=receive();
-				return new SSDBResultSet(new String(result.get(0)),result.get(1));
+				final List<byte[]> result=receive();
+				return (new Stream2ResultSet(){
+
+					@Override
+					public BaseResultSet execute() {
+						try{
+							String cmd_t=cmd.toLowerCase();
+							if(cmd_t.equals(SSDBCmd.GET.getCmd())){
+								if(result.size() != 2){
+									throw new Exception("Invalid response");
+								}
+								String status=new String(result.get(0));
+								return new SSDBResultSet<byte[]>(status,result,result.get(1)); 
+							}
+							if(cmd_t.equals(SSDBCmd.SCAN.getCmd())){
+								String status=new String(result.get(0));
+								buildMap();
+								return new SSDBResultSet<Map<byte[], byte[]>>(status,result,items);
+							}
+							if(cmd_t.equals(SSDBCmd.RSCAN.getCmd())){
+								String status=new String(result.get(0));
+								buildMap();
+								return new SSDBResultSet<Map<byte[], byte[]>>(status,result,items);
+							}
+							if(cmd_t.equals(SSDBCmd.INCR.getCmd())){
+								String status=new String(result.get(0));
+								if(result.size() != 2){
+									throw new Exception("Invalid response");
+								}
+								long ret = 0;
+								ret = Long.parseLong(new String(result.get(1)));
+								
+								return new SSDBResultSet<Long>(status,result,ret);
+							}
+							if(cmd_t.equals(SSDBCmd.HGET.getCmd())){
+								if(result.size() != 2){
+									throw new Exception("Invalid response");
+								}
+								String status=new String(result.get(0));
+								return new SSDBResultSet<byte[]>(status,result,result.get(1)); 
+							}
+							if(cmd_t.equals(SSDBCmd.HSCAN.getCmd())){
+								String status=new String(result.get(0));
+								buildMap();
+								return new SSDBResultSet<Map<byte[], byte[]>>(status,result,items);
+							}
+							if(cmd_t.equals(SSDBCmd.HRSCAN.getCmd())){
+								String status=new String(result.get(0));
+								buildMap();
+								return new SSDBResultSet<Map<byte[], byte[]>>(status,result,items);
+							}
+							if(cmd_t.equals(SSDBCmd.HINCR.getCmd())){
+								String status=new String(result.get(0));
+								if(result.size() != 2){
+									throw new Exception("Invalid response");
+								}
+								long ret = 0;
+								ret = Long.parseLong(new String(result.get(1)));
+								
+								return new SSDBResultSet<Long>(status,result,ret);
+							}
+							if(cmd_t.equals(SSDBCmd.ZGET.getCmd())){
+								String status=new String(result.get(0));
+								if(result.size() != 2){
+									throw new Exception("Invalid response");
+								}
+								long ret = 0;
+								ret = Long.parseLong(new String(result.get(1)));
+								
+								return new SSDBResultSet<Long>(status,result,ret);
+							}
+							if(cmd_t.equals(SSDBCmd.ZSCAN.getCmd())){
+								String status=new String(result.get(0));
+								buildMap();
+								return new SSDBResultSet<Map<byte[], byte[]>>(status,result,items);
+							}
+							if(cmd_t.equals(SSDBCmd.ZRSCAN.getCmd())){
+								String status=new String(result.get(0));
+								buildMap();
+								return new SSDBResultSet<Map<byte[], byte[]>>(status,result,items);
+							}
+							if(cmd_t.equals(SSDBCmd.ZINCR.getCmd())){
+								String status=new String(result.get(0));
+								if(result.size() != 2){
+									throw new Exception("Invalid response");
+								}
+								long ret = 0;
+								ret = Long.parseLong(new String(result.get(1)));
+								
+								return new SSDBResultSet<Long>(status,result,ret);
+							}
+							
+							if(cmd_t.equals(SSDBCmd.MULTI_GET.getCmd())){
+								String status=new String(result.get(0));
+								buildMap();
+								return new SSDBResultSet<Map<byte[], byte[]>>(status,result,items);
+							}
+							
+							if(cmd_t.equals(SSDBCmd.MULTI_DEL.getCmd())){
+								String status=new String(result.get(0));
+								buildMap();
+								return new SSDBResultSet<Map<byte[], byte[]>>(status,result,items);
+							}
+							
+						}catch(Exception e){
+							return new SSDBResultSet("error",e);
+						}
+						return null;
+					}
+					
+					private List<byte[]> keys = new ArrayList<byte[]>();
+					private Map<byte[], byte[]> items = new LinkedHashMap<byte[], byte[]>();
+					private void buildMap(){
+						for(int i=1; i<result.size(); i+=2){
+							byte[] k = result.get(i);
+							byte[] v = result.get(i+1);
+							keys.add(k);
+							items.put(k, v);
+						}
+					}
+					
+				}).execute();
 			}
 
 			@Override
@@ -138,6 +264,7 @@ public class SSDBProtocolImpl implements Protocol{
 					return false;
 				}
 			}
+
 			
 		};
 	}
