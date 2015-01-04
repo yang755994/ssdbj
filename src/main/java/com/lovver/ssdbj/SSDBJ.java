@@ -12,6 +12,7 @@ import com.lovver.ssdbj.core.SSDBCmd;
 import com.lovver.ssdbj.core.impl.SSDBResultSet;
 import com.lovver.ssdbj.exception.SSDBJConfigException;
 import com.lovver.ssdbj.loadbalance.LoadBalance;
+import com.lovver.ssdbj.loadbalance.LoadBalanceFactory;
 import com.lovver.ssdbj.pool.SSDBDataSource;
 import com.lovver.ssdbj.pool.SSDBPoolConnection;
 
@@ -35,9 +36,11 @@ public class SSDBJ {
 		}
 	}
 	
+	
+	private static LoadBalanceFactory balanceFactory=LoadBalanceFactory.getInstance();
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static SSDBResultSet execute(String cluster_id,SSDBCmd cmd,List<String> params) throws Exception{
-		LoadBalance lb = null;
+		LoadBalance lb = balanceFactory.createLoadBalance(cluster_id);
 		SSDBPoolConnection conn=null;
 		try{
 			SSDBDataSource ds=null;

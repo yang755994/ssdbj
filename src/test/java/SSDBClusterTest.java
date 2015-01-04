@@ -1,4 +1,7 @@
+import java.util.ArrayList;
+
 import com.lovver.ssdbj.SSDBJ;
+import com.lovver.ssdbj.core.BaseResultSet;
 import com.lovver.ssdbj.core.SSDBCmd;
 
 
@@ -9,8 +12,11 @@ public class SSDBClusterTest {
 	 * @throws Exception 
 	 */
 	public static void main(String[] args) throws Exception {
-		// TODO Auto-generated method stub
-		SSDBJ.execute("",SSDBCmd.HSET,null);
+		ArrayList params=new ArrayList();
+		params.add("joliny");
+		params.add("kkk");
+		BaseResultSet<byte[]> rs= SSDBJ.execute("userinfo_cluster",SSDBCmd.HGET,params);
+		System.out.println(new String(rs.getResult()));
 	}
 
 }

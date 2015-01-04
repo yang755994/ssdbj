@@ -7,13 +7,17 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.lovver.ssdbj.config.Cluster;
 import com.lovver.ssdbj.config.ClusterSsdbNode;
+import com.lovver.ssdbj.loadbalance.LoadBalanceFactory;
 import com.lovver.ssdbj.pool.SSDBDataSource;
 
 public class SSDBCluster {
 	//map<cluster_id+"|"+ssdbnode_id,ds>
 	private static Map<String,SSDBDataSource> mDS=new ConcurrentHashMap<String, SSDBDataSource>(); 
 	
+	private static LoadBalanceFactory balanceFactory=LoadBalanceFactory.getInstance();
 	public static void initCluster(List<Cluster> clusters) {
+//		SSDBCluster.clusters=clusters;
+		balanceFactory.setClusterConfig(clusters);
 		for(Cluster cluster:clusters){
 			String cluster_id=cluster.getId();
 			
@@ -38,6 +42,12 @@ public class SSDBCluster {
 					mDS.put(m_id, ds);
 				}
 			}
+			balanceFactory.createLoadBalance(cluster_id);
 		}
+		
+	}
+	
+	public static SSDBDataSource getDataSource(String cluster_id,String ssdb_node_id){
+		return mDS.get(cluster_id+"|"+ssdb_node_id);
 	}
 }
