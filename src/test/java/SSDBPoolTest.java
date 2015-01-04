@@ -56,6 +56,18 @@ public class SSDBPoolTest {
 					System.out.println(new String(key)+"====="+new String(items.get(key)));
 				}
 				
+				
+				ArrayList<byte[]> scan_params=new ArrayList();
+				scan_params.add("".getBytes());
+				scan_params.add("".getBytes());
+				scan_params.add("10".getBytes());
+				BaseResultSet<Map<byte[],byte[]>> scan_rs=conn.execute("scan",scan_params );
+				Map<byte[],byte[]> scan_items=scan_rs.getResult();
+				Iterator<byte[]> scan_ite=scan_items.keySet().iterator();
+				while(scan_ite.hasNext()){
+					byte[] key=scan_ite.next();
+					System.out.println(new String(key)+"====="+new String(scan_items.get(key)));
+				}
 			}finally{
 				conn.close();
 			}
