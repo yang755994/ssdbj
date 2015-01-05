@@ -52,7 +52,7 @@ public class SSDBJ {
 		return execute(cluster_id,cmd,Arrays.asList(params));
 	}
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@SuppressWarnings({ "rawtypes", "unchecked", "static-access" })
 	public static SSDBResultSet execute(String cluster_id,SSDBCmd cmd,List<String> params) throws Exception{
 		LoadBalance lb = balanceFactory.createLoadBalance(cluster_id);
 		SSDBPoolConnection conn=null;
@@ -72,14 +72,26 @@ public class SSDBJ {
 			}
 			conn=ds.getConnection();
 			rs= (SSDBResultSet) conn.execute(cmd.getCmd(), bP);
+			if(rs.getStatus().equals("error")){
+				Thread.currentThread().sleep(500);
+				rs= (SSDBResultSet) conn.execute(cmd.getCmd(), bP);
+			}
 		}catch(Exception e){
 			throw e;
 		}finally{
 			conn.close();
 		}
-		
+		System.out.println(rs.getStatus());
+		if(rs.getStatus().equals("not_found")){
+			System.out.print("not_found:["+cluster_id+"] retry'set "+cachedClusterConf.get(cluster_id).isNotfound_master_retry());
+		}
 		if(rs.getStatus().equals("not_found")&&cachedClusterConf.get(cluster_id).isNotfound_master_retry()){
 			try{
+				String pp="";
+				for(String p:params){
+					pp+=p;
+				}
+				System.out.print("notfount_master_retry:["+cluster_id+"]"+pp);
 				ds=lb.getWriteDataSource(cluster_id);
 				conn=ds.getConnection();
 				rs= (SSDBResultSet) conn.execute(cmd.getCmd(), bP);
