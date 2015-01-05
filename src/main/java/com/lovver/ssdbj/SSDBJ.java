@@ -1,6 +1,7 @@
 package com.lovver.ssdbj;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -47,6 +48,10 @@ public class SSDBJ {
 	
 	private static LoadBalanceFactory balanceFactory=LoadBalanceFactory.getInstance();
 	
+	public static SSDBResultSet execute(String cluster_id,SSDBCmd cmd,String...params ) throws Exception{
+		return execute(cluster_id,cmd,Arrays.asList(params));
+	}
+	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static SSDBResultSet execute(String cluster_id,SSDBCmd cmd,List<String> params) throws Exception{
 		LoadBalance lb = balanceFactory.createLoadBalance(cluster_id);
@@ -88,27 +93,27 @@ public class SSDBJ {
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static void executeUpdate(String cluster_id,SSDBCmd  cmd,List<String> params) throws Exception{
+	public static boolean executeUpdate(String cluster_id,SSDBCmd  cmd,List<byte[]> params) throws Exception{
 		LoadBalance lb = balanceFactory.createLoadBalance(cluster_id);
 		SSDBPoolConnection conn=null;
 		try{
 			SSDBDataSource ds=null;
-			if(cmd.getSlave()){
-				ds=lb.getReadDataSource(cluster_id);
-			}else{
-				ds=lb.getWriteDataSource(cluster_id);
-			}
+			ds=lb.getWriteDataSource(cluster_id);
 			conn=ds.getConnection();
-			List<byte[]> bP=new ArrayList<byte[]>();
-			for(String p:params){
-				bP.add(p.getBytes());
-			}
-			conn.executeUpdate(cmd.getCmd(), bP);
+			return conn.executeUpdate(cmd.getCmd(), params);
 		}catch(Exception e){
 			throw e;
 		}finally{
 			conn.close();
 		}
+	}
+	
+	public static boolean executeUpdate(String cluster_id,SSDBCmd  cmd,String... params) throws Exception{
+		List<byte[]> bP=new ArrayList<byte[]>();
+		for(String p:params){
+			bP.add(p.getBytes());
+		}
+		return executeUpdate(cluster_id,cmd,bP);
 	}
 	
 }
