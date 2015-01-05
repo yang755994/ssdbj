@@ -17,4 +17,7 @@ public class SSDBDataSource  {
 		return conn;
 	}
 
+	public void distory(){
+		this.pools.close();
+	}
 }

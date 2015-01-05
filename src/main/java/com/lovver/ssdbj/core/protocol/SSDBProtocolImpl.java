@@ -8,8 +8,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
-
 import com.lovver.ssdbj.core.BaseResultSet;
 import com.lovver.ssdbj.core.CommandExecutor;
 import com.lovver.ssdbj.core.MemoryStream;
@@ -128,6 +126,9 @@ public class SSDBProtocolImpl implements Protocol{
 			@Override
 			public BaseResultSet execute(final String cmd, List<byte[]> params)
 					throws SSDBException {
+//				if("del".equals(cmd.toLowerCase())){
+//					System.out.println("//////////////////////////////////////////////////del/////////////////////////");
+//				}
 				sendCommand(cmd,params);
 				final List<byte[]> result=receive();
 				return (new Stream2ResultSet(){
