@@ -2,6 +2,8 @@ package com.lovver.ssdbj;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -18,6 +20,7 @@ import com.lovver.ssdbj.pool.SSDBPoolConnection;
 
 public class SSDBJ {
 	private static String DEFAULT_SSDBJ_FILE="/ssdbj.xml";
+	private static Map<String,Cluster> cachedClusterConf=new ConcurrentHashMap<String, Cluster>();
 	static{
 		load(null);
 	}
@@ -31,6 +34,11 @@ public class SSDBJ {
 		try {
 			List<Cluster> lstCluster=parse.loadSSDBJ(ssdbj_file);
 			SSDBCluster.initCluster(lstCluster);
+			
+			//≈‰÷√cache
+			for(Cluster cluster:lstCluster){
+				cachedClusterConf.put(cluster.getId(),cluster);
+			}
 		} catch (SSDBJConfigException e) {
 			e.printStackTrace();
 		}
@@ -43,24 +51,40 @@ public class SSDBJ {
 	public static SSDBResultSet execute(String cluster_id,SSDBCmd cmd,List<String> params) throws Exception{
 		LoadBalance lb = balanceFactory.createLoadBalance(cluster_id);
 		SSDBPoolConnection conn=null;
+		SSDBResultSet rs=null;
+		SSDBDataSource ds=null;
+		
+		List<byte[]> bP=new ArrayList<byte[]>();
+		for(String p:params){
+			bP.add(p.getBytes());
+		}
+		
 		try{
-			SSDBDataSource ds=null;
 			if(cmd.getSlave()){
 				ds=lb.getReadDataSource(cluster_id);
 			}else{
 				ds=lb.getWriteDataSource(cluster_id);
 			}
 			conn=ds.getConnection();
-			List<byte[]> bP=new ArrayList<byte[]>();
-			for(String p:params){
-				bP.add(p.getBytes());
-			}
-			return (SSDBResultSet) conn.execute(cmd.getCmd(), bP);
+			rs= (SSDBResultSet) conn.execute(cmd.getCmd(), bP);
 		}catch(Exception e){
 			throw e;
 		}finally{
 			conn.close();
 		}
+		
+		if(rs.getStatus().equals("not_found")&&cachedClusterConf.get(cluster_id).isNotfound_master_retry()){
+			try{
+				ds=lb.getWriteDataSource(cluster_id);
+				conn=ds.getConnection();
+				rs= (SSDBResultSet) conn.execute(cmd.getCmd(), bP);
+			}catch(Exception e){
+				throw e;
+			}finally{
+				conn.close();
+			}
+		}
+		return rs;
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
