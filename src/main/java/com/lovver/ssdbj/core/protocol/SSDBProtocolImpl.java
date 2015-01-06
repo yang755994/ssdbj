@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import com.lovver.ssdbj.core.BaseResultSet;
 import com.lovver.ssdbj.core.CommandExecutor;
@@ -24,11 +25,13 @@ public class SSDBProtocolImpl implements Protocol{
 	private MemoryStream input = new MemoryStream();
 	private OutputStream outputStream;
 	private InputStream inputStream;
+	private Properties props;
 //    private Protocol protocol;
 	
-	public SSDBProtocolImpl(OutputStream os,InputStream is){
+	public SSDBProtocolImpl(OutputStream os,InputStream is,Properties infos){
 		this.outputStream=os;
 		this.inputStream=is;
+		this.props=infos;
 //		protocol=SSDBProtocolFactory.createSSDBProtocolImpl(protocolName,outputStream,inputStream);
 	}
 	
@@ -272,6 +275,20 @@ public class SSDBProtocolImpl implements Protocol{
 
 	@Override
 	public void auth() {
-		//TODO 不同的协议自实现验证
+		final String sauth=props.getProperty("password");
+		List<byte[]> auth=new ArrayList<byte[]>(){{
+			add(sauth.getBytes());
+		}};
+		try {
+			sendCommand("auth",auth);
+			List<byte[]> authResult=receive();
+			if(!"ok".equals(new String(authResult.get(0)))){
+				System.out.println("auth failed");
+				throw new RuntimeException("auth failed");
+			}
+		} catch (SSDBException e) {
+			System.out.println("auth failed");
+			throw new RuntimeException("auth failed");
+		}
 	} 
 }

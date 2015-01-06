@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ssdbj>
-	<ssdb_node id="m_userinfo"   master="true"  host="192.168.0.226" port="8888"  user="" password="" loginTimeout="0" tcpKeepAlive="true" protocolName="ssdb" />
-	<ssdb_node id="s_userinfo1"  master="false" host="192.168.0.226" port="8889"  user="" password="" loginTimeout="0" tcpKeepAlive="true" protocolName="ssdb" />
-	<ssdb_node id="s_userinfo2"  master="false" host="192.168.0.226" port="8890"  user="" password="" loginTimeout="30" tcpKeepAlive="true" protocolName="ssdb" />
+	<ssdb_node id="m_userinfo"   master="true"  host="192.168.0.226" port="8888"  user="" password="1abcdefghijklmnopqrstuvwxyz1234567890" loginTimeout="0" tcpKeepAlive="true" protocolName="ssdb" />
+	<ssdb_node id="s_userinfo1"  master="false" host="192.168.0.226" port="8889"  user="" password="1abcdefghijklmnopqrstuvwxyz1234567890" loginTimeout="0" tcpKeepAlive="true" protocolName="ssdb" />
+	<ssdb_node id="s_userinfo2"  master="false" host="192.168.0.226" port="8890"  user="" password="1abcdefghijklmnopqrstuvwxyz1234567890" loginTimeout="30" tcpKeepAlive="true" protocolName="ssdb" />
 
 	<clusters>
 		<cluster id="userinfo_cluster" notfound_master_retry="true" error_retry_times="3" error_master_retry="true" balance="random_weight">

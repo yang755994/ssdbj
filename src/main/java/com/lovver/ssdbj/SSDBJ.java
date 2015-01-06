@@ -128,7 +128,7 @@ public class SSDBJ {
 		if(rs.getStatus().equals("not_found")){
 			System.out.print("not_found:["+cluster_id+"] retry'set "+cluster.isNotfound_master_retry());
 		}
-		if(rs.getStatus().equals("not_found")&&cachedClusterConf.get(cluster_id).isNotfound_master_retry()){
+		if(rs.getStatus().equals("not_found")&&cluster.isNotfound_master_retry()){
 			try{
 				String pp="";
 				for(String p:params){
