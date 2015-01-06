@@ -71,6 +71,24 @@ public class XMLConfigParse implements ConfigParser {
 					protocolName="ssdb";
 				}
 				node.setProtocolName(protocolName);
+				
+				
+				node.setMinIdle(x_ssdb_node.getAttributeValue("minIdle"));
+				node.setMaxTotal(x_ssdb_node.getAttributeValue("maxTotal"));
+				node.setMaxIdle(x_ssdb_node.getAttributeValue("maxIdle"));
+				node.setMaxWaitMillis(x_ssdb_node.getAttributeValue("maxWaitMillis"));
+				node.setMinEvictableIdleTimeMillis(x_ssdb_node.getAttributeValue("minEvictableIdleTimeMillis"));
+				node.setTimeBetweenEvictionRunsMillis(x_ssdb_node.getAttributeValue("timeBetweenEvictionRunsMillis"));
+				node.setTestWhileIdle(x_ssdb_node.getAttributeValue("testWhileIdle"));
+				node.setTestOnReturn(x_ssdb_node.getAttributeValue("testOnReturn"));
+				node.setTestOnCreate(x_ssdb_node.getAttributeValue("testOnCreate"));
+				node.setTestOnBorrow(x_ssdb_node.getAttributeValue("testOnBorrow"));
+				node.setSoftMinEvictableIdleTimeMillis(x_ssdb_node.getAttributeValue("softMinEvictableIdleTimeMillis"));
+				node.setNumTestsPerEvictionRun(x_ssdb_node.getAttributeValue("numTestsPerEvictionRun"));
+				node.setBlockWhenExhausted(x_ssdb_node.getAttributeValue("blockWhenExhausted"));
+				node.setRemoveAbandonedOnBorrow(x_ssdb_node.getAttributeValue("removeAbandonedOnBorrow"));
+				node.setRemoveAbandonedTimeout(x_ssdb_node.getAttributeValue("removeAbandonedTimeout"));
+				
 				mapSsdbNode.put(id, node);
 			}
 			

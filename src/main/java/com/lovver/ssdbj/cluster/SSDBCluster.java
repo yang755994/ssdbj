@@ -33,6 +33,22 @@ public class SSDBCluster {
 				props.put("port", cNode.getPort()+"");
 				props.put("user", cNode.getUser());
 				
+				props.put("minIdle", cNode.getMinIdle());
+				props.put("maxTotal", cNode.getMaxTotal());
+				props.put("maxIdle", cNode.getMaxIdle());
+				props.put("maxWaitMillis", cNode.getMaxWaitMillis());
+				props.put("minEvictableIdleTimeMillis", cNode.getMinEvictableIdleTimeMillis());
+				props.put("timeBetweenEvictionRunsMillis", cNode.getTimeBetweenEvictionRunsMillis());
+				props.put("testWhileIdle", cNode.getTestWhileIdle());
+				props.put("testOnReturn", cNode.getTestOnReturn());
+				props.put("testOnCreate", cNode.getTestOnCreate());
+				props.put("testOnBorrow", cNode.getTestOnBorrow());
+				props.put("softMinEvictableIdleTimeMillis", cNode.getSoftMinEvictableIdleTimeMillis());
+				props.put("numTestsPerEvictionRun", cNode.getNumTestsPerEvictionRun());
+				props.put("blockWhenExhausted", cNode.getBlockWhenExhausted());
+				props.put("removeAbandonedOnBorrow", cNode.getRemoveAbandonedOnBorrow());
+				props.put("removeAbandonedTimeout", cNode.getRemoveAbandonedTimeout());
+				
 				String host=props.getProperty("host", "localhost");
 				int port=Integer.parseInt(props.getProperty("port", "8888"));
 				String user=props.getProperty("user");

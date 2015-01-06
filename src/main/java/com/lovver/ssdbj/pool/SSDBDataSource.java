@@ -7,7 +7,7 @@ public class SSDBDataSource  {
 	private SSDBConnectionPools pools;
 	
 	public SSDBDataSource(String host, int port, String user, Properties props){
-		pools = new SSDBConnectionPools(host,port,user,props);
+		pools = SSDBConnectionPools.createPool(host,port,user,props);
 	}
 	
 	@SuppressWarnings({ "rawtypes"})
