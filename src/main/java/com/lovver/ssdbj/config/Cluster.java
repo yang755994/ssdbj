@@ -10,6 +10,8 @@ public class Cluster implements Serializable {
 	private String id;
 	private boolean notfound_master_retry;
 	private String balance;
+	private boolean error_master_retry;
+	private int error_retry_times;
 	
 	private List<ClusterSsdbNode> lstSsdbNode=new ArrayList<ClusterSsdbNode>(2);
 	
@@ -30,6 +32,18 @@ public class Cluster implements Serializable {
 	}
 	public void setBalance(String balance) {
 		this.balance = balance;
+	}
+	public boolean isError_master_retry() {
+		return error_master_retry;
+	}
+	public void setError_master_retry(boolean error_master_retry) {
+		this.error_master_retry = error_master_retry;
+	}
+	public int getError_retry_times() {
+		return error_retry_times;
+	}
+	public void setError_retry_times(int error_retry_times) {
+		this.error_retry_times = error_retry_times;
 	}
 	public List<ClusterSsdbNode> getLstSsdbNode() {
 		return lstSsdbNode;

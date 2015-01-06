@@ -99,6 +99,19 @@ public class XMLConfigParse implements ConfigParser {
 					notfound_master_retry="false";
 				}
 				cluster.setNotfound_master_retry(new Boolean(notfound_master_retry));
+				
+				String error_master_retry=xCluster.getAttributeValue("error_master_retry");
+				if(StringUtils.isEmpty(error_master_retry)){
+					error_master_retry="false";
+				}
+				cluster.setError_master_retry(new Boolean(error_master_retry));
+				
+				String error_retry_times=xCluster.getAttributeValue("error_retry_times");
+				if(StringUtils.isEmpty(error_retry_times)){
+					error_retry_times="0";
+				}
+				cluster.setError_retry_times(new Integer(error_retry_times));
+				
 				List<Element> lstXLBSNode=xCluster.getChildren("ssdb_node");
 				for(Element xLBNode:lstXLBSNode){
 					String id=xLBNode.getText();

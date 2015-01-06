@@ -11,6 +11,7 @@ import org.apache.commons.lang.StringUtils;
 import com.lovver.ssdbj.cluster.SSDBCluster;
 import com.lovver.ssdbj.config.Cluster;
 import com.lovver.ssdbj.config.parse.XMLConfigParse;
+import com.lovver.ssdbj.core.BaseConnection;
 import com.lovver.ssdbj.core.SSDBCmd;
 import com.lovver.ssdbj.core.impl.SSDBResultSet;
 import com.lovver.ssdbj.exception.SSDBJConfigException;
@@ -48,8 +49,14 @@ public class SSDBJ {
 	
 	private static LoadBalanceFactory balanceFactory=LoadBalanceFactory.getInstance();
 	
+	@SuppressWarnings("rawtypes")
 	public static SSDBResultSet execute(String cluster_id,SSDBCmd cmd,String...params ) throws Exception{
 		return execute(cluster_id,cmd,Arrays.asList(params));
+	}
+	
+	@SuppressWarnings("rawtypes")
+	private static SSDBResultSet execute(BaseConnection conn,SSDBCmd cmd,List<byte[]> params) throws Exception{
+		return (SSDBResultSet) conn.execute(cmd.getCmd(), params);
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked", "static-access" })
@@ -64,6 +71,8 @@ public class SSDBJ {
 			bP.add(p.getBytes());
 		}
 		
+		Cluster cluster=cachedClusterConf.get(cluster_id);
+		int error_try_times=cluster.getError_retry_times();
 		try{
 			if(cmd.getSlave()){
 				ds=lb.getReadDataSource(cluster_id);
@@ -71,19 +80,53 @@ public class SSDBJ {
 				ds=lb.getWriteDataSource(cluster_id);
 			}
 			conn=ds.getConnection();
-			rs= (SSDBResultSet) conn.execute(cmd.getCmd(), bP);
-			if(rs.getStatus().equals("error")){
-				Thread.currentThread().sleep(500);
-				rs= (SSDBResultSet) conn.execute(cmd.getCmd(), bP);
+			rs=execute(conn,cmd,bP);
+			if(rs.getStatus().equals("error")&&!cluster.isError_master_retry()&&error_try_times>0){
+				int retry_time=error_try_times;
+				while(true){//error slave retry
+					Thread.currentThread().sleep(500);
+					rs= (SSDBResultSet) conn.execute(cmd.getCmd(), bP);
+					if("ok".equals(rs.getResult())){
+						return rs;
+					}
+					retry_time--;
+					if(retry_time<1){
+						return new SSDBResultSet("error",new Exception(cmd.getCmd()+" "+cluster_id+" error"));
+					}
+				}
 			}
 		}catch(Exception e){
 			throw e;
 		}finally{
 			conn.close();
 		}
+		
+		//error master retry
+		if(rs.getStatus().equals("error")&&cluster.isError_master_retry()&&error_try_times>0){
+			try{
+				ds=lb.getWriteDataSource(cluster_id);
+				conn=ds.getConnection();
+				int retry_time=error_try_times;
+				while(true){
+					Thread.currentThread().sleep(500);
+					rs= (SSDBResultSet) conn.execute(cmd.getCmd(), bP);
+					if("ok".equals(rs.getResult())){
+						return rs;
+					}
+					retry_time--;
+					if(retry_time<1){
+						return new SSDBResultSet("error",new Exception(cmd.getCmd()+" "+cluster_id+" error"));
+					}
+				}
+			}finally{
+				conn.close();
+			}
+		}
+		
+		//not_found master retry
 		System.out.println(rs.getStatus());
 		if(rs.getStatus().equals("not_found")){
-			System.out.print("not_found:["+cluster_id+"] retry'set "+cachedClusterConf.get(cluster_id).isNotfound_master_retry());
+			System.out.print("not_found:["+cluster_id+"] retry'set "+cluster.isNotfound_master_retry());
 		}
 		if(rs.getStatus().equals("not_found")&&cachedClusterConf.get(cluster_id).isNotfound_master_retry()){
 			try{
@@ -95,6 +138,7 @@ public class SSDBJ {
 				ds=lb.getWriteDataSource(cluster_id);
 				conn=ds.getConnection();
 				rs= (SSDBResultSet) conn.execute(cmd.getCmd(), bP);
+				return rs;
 			}catch(Exception e){
 				throw e;
 			}finally{
