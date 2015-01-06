@@ -98,7 +98,8 @@ public class SSDBJ {
 		}catch(Exception e){
 			throw e;
 		}finally{
-			conn.close();
+			if(conn!=null)
+				conn.close();
 		}
 		
 		//error master retry
