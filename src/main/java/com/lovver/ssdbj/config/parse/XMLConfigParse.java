@@ -130,6 +130,12 @@ public class XMLConfigParse implements ConfigParser {
 				}
 				cluster.setError_retry_times(new Integer(error_retry_times));
 				
+				String retry_interval=xCluster.getAttributeValue("retry_interval");
+				if(StringUtils.isEmpty(retry_interval)){
+					retry_interval="1000";
+				}
+				cluster.setRetry_interval(new Integer(retry_interval));
+				
 				List<Element> lstXLBSNode=xCluster.getChildren("ssdb_node");
 				for(Element xLBNode:lstXLBSNode){
 					String id=xLBNode.getText();

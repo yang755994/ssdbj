@@ -6,7 +6,7 @@
 	<ssdb_node id="s_userinfo2"  master="false" host="192.168.0.226" port="8890"  user="" password="abcdefghijklmnopqrstuvwxyz1234567890" loginTimeout="3" tcpKeepAlive="true" protocolName="ssdb" />
  	-->
 	<clusters>
-		<cluster id="userinfo_cluster" notfound_master_retry="true" error_retry_times="3" error_master_retry="true" balance="random_weight">
+		<cluster id="userinfo_cluster" notfound_master_retry="true" error_retry_times="3" error_master_retry="true" retry_interval="500" balance="random_weight">
 			<ssdb_node weight="1" rwMode="w">m_userinfo</ssdb_node>
 			<ssdb_node weight="2" rwMode="r">s_userinfo1</ssdb_node>
 			<!-- 

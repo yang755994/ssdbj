@@ -84,7 +84,7 @@ public class SSDBJ {
 			if(rs.getStatus().equals("error")&&!cluster.isError_master_retry()&&error_try_times>0){
 				int retry_time=error_try_times;
 				while(true){//error slave retry
-					Thread.currentThread().sleep(500);
+					Thread.currentThread().sleep(cluster.getRetry_interval());
 					rs= (SSDBResultSet) conn.execute(cmd.getCmd(), bP);
 					if("ok".equals(rs.getResult())){
 						return rs;
@@ -109,9 +109,9 @@ public class SSDBJ {
 				conn=ds.getConnection();
 				int retry_time=error_try_times;
 				while(true){
-					Thread.currentThread().sleep(500);
+					Thread.currentThread().sleep(cluster.getRetry_interval());
 					rs= (SSDBResultSet) conn.execute(cmd.getCmd(), bP);
-					if("ok".equals(rs.getResult())){
+					if("ok".equals(rs.getStatus())){
 						return rs;
 					}
 					retry_time--;
@@ -126,16 +126,16 @@ public class SSDBJ {
 		
 		//not_found master retry
 		System.out.println(rs.getStatus());
-		if(rs.getStatus().equals("not_found")){
-			System.out.print("not_found:["+cluster_id+"] retry'set "+cluster.isNotfound_master_retry());
-		}
+//		if(rs.getStatus().equals("not_found")){
+//			System.out.print("not_found:["+cluster_id+"] retry'set "+cluster.isNotfound_master_retry());
+//		}
 		if(rs.getStatus().equals("not_found")&&cluster.isNotfound_master_retry()){
 			try{
-				String pp="";
-				for(String p:params){
-					pp+=p;
-				}
-				System.out.print("notfount_master_retry:["+cluster_id+"]"+pp);
+//				String pp="";
+//				for(String p:params){
+//					pp+=p;
+//				}
+				System.out.println("master retry to found!");
 				ds=lb.getWriteDataSource(cluster_id);
 				conn=ds.getConnection();
 				rs= (SSDBResultSet) conn.execute(cmd.getCmd(), bP);

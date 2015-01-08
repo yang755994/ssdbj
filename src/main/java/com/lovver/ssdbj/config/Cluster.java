@@ -12,6 +12,7 @@ public class Cluster implements Serializable {
 	private String balance;
 	private boolean error_master_retry;
 	private int error_retry_times;
+	private int retry_interval;
 	
 	private List<ClusterSsdbNode> lstSsdbNode=new ArrayList<ClusterSsdbNode>(2);
 	
@@ -44,6 +45,12 @@ public class Cluster implements Serializable {
 	}
 	public void setError_retry_times(int error_retry_times) {
 		this.error_retry_times = error_retry_times;
+	}
+	public int getRetry_interval() {
+		return retry_interval;
+	}
+	public void setRetry_interval(int retry_interval) {
+		this.retry_interval = retry_interval;
 	}
 	public List<ClusterSsdbNode> getLstSsdbNode() {
 		return lstSsdbNode;

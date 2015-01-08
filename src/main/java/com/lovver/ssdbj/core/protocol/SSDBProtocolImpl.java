@@ -141,10 +141,14 @@ public class SSDBProtocolImpl implements Protocol{
 						try{
 							String cmd_t=cmd.toLowerCase();
 							if(cmd_t.equals(SSDBCmd.GET.getCmd())){
+								String status=new String(result.get(0));
 								if(result.size() != 2){
+									if("not_found".equals(status)){
+										return new SSDBResultSet<byte[]>(status,result,null); 
+									}
 									throw new Exception("Invalid response");
 								}
-								String status=new String(result.get(0));
+								
 								return new SSDBResultSet<byte[]>(status,result,result.get(1)); 
 							}
 							if(cmd_t.equals(SSDBCmd.SCAN.getCmd())){
@@ -160,6 +164,9 @@ public class SSDBProtocolImpl implements Protocol{
 							if(cmd_t.equals(SSDBCmd.INCR.getCmd())){
 								String status=new String(result.get(0));
 								if(result.size() != 2){
+									if("not_found".equals(status)){
+										return new SSDBResultSet<byte[]>(status,result,null); 
+									}
 									throw new Exception("Invalid response");
 								}
 								long ret = 0;
@@ -168,10 +175,13 @@ public class SSDBProtocolImpl implements Protocol{
 								return new SSDBResultSet<Long>(status,result,ret);
 							}
 							if(cmd_t.equals(SSDBCmd.HGET.getCmd())){
+								String status=new String(result.get(0));
 								if(result.size() != 2){
+									if("not_found".equals(status)){
+										return new SSDBResultSet<byte[]>(status,result,null); 
+									}
 									throw new Exception("Invalid response");
 								}
-								String status=new String(result.get(0));
 								return new SSDBResultSet<byte[]>(status,result,result.get(1)); 
 							}
 							if(cmd_t.equals(SSDBCmd.HSCAN.getCmd())){
@@ -187,6 +197,9 @@ public class SSDBProtocolImpl implements Protocol{
 							if(cmd_t.equals(SSDBCmd.HINCR.getCmd())){
 								String status=new String(result.get(0));
 								if(result.size() != 2){
+									if("not_found".equals(status)){
+										return new SSDBResultSet<byte[]>(status,result,null); 
+									}
 									throw new Exception("Invalid response");
 								}
 								long ret = 0;
@@ -197,6 +210,9 @@ public class SSDBProtocolImpl implements Protocol{
 							if(cmd_t.equals(SSDBCmd.ZGET.getCmd())){
 								String status=new String(result.get(0));
 								if(result.size() != 2){
+									if("not_found".equals(status)){
+										return new SSDBResultSet<byte[]>(status,result,null); 
+									}
 									throw new Exception("Invalid response");
 								}
 								long ret = 0;
@@ -217,6 +233,9 @@ public class SSDBProtocolImpl implements Protocol{
 							if(cmd_t.equals(SSDBCmd.ZINCR.getCmd())){
 								String status=new String(result.get(0));
 								if(result.size() != 2){
+									if("not_found".equals(status)){
+										return new SSDBResultSet<byte[]>(status,result,null); 
+									}
 									throw new Exception("Invalid response");
 								}
 								long ret = 0;

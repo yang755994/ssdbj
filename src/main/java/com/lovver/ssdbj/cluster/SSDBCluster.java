@@ -33,21 +33,51 @@ public class SSDBCluster {
 				props.put("port", cNode.getPort()+"");
 				props.put("user", cNode.getUser());
 				
-				props.put("minIdle", cNode.getMinIdle());
-				props.put("maxTotal", cNode.getMaxTotal());
-				props.put("maxIdle", cNode.getMaxIdle());
-				props.put("maxWaitMillis", cNode.getMaxWaitMillis());
-				props.put("minEvictableIdleTimeMillis", cNode.getMinEvictableIdleTimeMillis());
-				props.put("timeBetweenEvictionRunsMillis", cNode.getTimeBetweenEvictionRunsMillis());
-				props.put("testWhileIdle", cNode.getTestWhileIdle());
-				props.put("testOnReturn", cNode.getTestOnReturn());
-				props.put("testOnCreate", cNode.getTestOnCreate());
-				props.put("testOnBorrow", cNode.getTestOnBorrow());
-				props.put("softMinEvictableIdleTimeMillis", cNode.getSoftMinEvictableIdleTimeMillis());
-				props.put("numTestsPerEvictionRun", cNode.getNumTestsPerEvictionRun());
-				props.put("blockWhenExhausted", cNode.getBlockWhenExhausted());
-				props.put("removeAbandonedOnBorrow", cNode.getRemoveAbandonedOnBorrow());
-				props.put("removeAbandonedTimeout", cNode.getRemoveAbandonedTimeout());
+				if(null!=cNode.getMinIdle()){
+					props.put("minIdle", cNode.getMinIdle());
+				}
+				if(null!=cNode.getMaxTotal()){
+					props.put("maxTotal", cNode.getMaxTotal());
+				}
+				if(null!=cNode.getMaxIdle()){
+					props.put("maxIdle", cNode.getMaxIdle());
+				}
+				if(null!=cNode.getMaxWaitMillis()){
+					props.put("maxWaitMillis", cNode.getMaxWaitMillis());
+				}
+				if(null!=cNode.getMinEvictableIdleTimeMillis()){
+					props.put("minEvictableIdleTimeMillis", cNode.getMinEvictableIdleTimeMillis());
+				}
+				if(null!=cNode.getTimeBetweenEvictionRunsMillis()){
+					props.put("timeBetweenEvictionRunsMillis", cNode.getTimeBetweenEvictionRunsMillis());
+				}
+				if(null!=cNode.getTestWhileIdle()){
+					props.put("testWhileIdle", cNode.getTestWhileIdle());
+				}
+				if(null!=cNode.getTestOnReturn()){
+					props.put("testOnReturn", cNode.getTestOnReturn());
+				}
+				if(null!=cNode.getTestOnCreate()){
+					props.put("testOnCreate", cNode.getTestOnCreate());
+				}
+				if(null!=cNode.getTestOnBorrow()){
+					props.put("testOnBorrow", cNode.getTestOnBorrow());
+				}
+				if(null!=cNode.getSoftMinEvictableIdleTimeMillis()){
+					props.put("softMinEvictableIdleTimeMillis", cNode.getSoftMinEvictableIdleTimeMillis());
+				}
+				if(null!=cNode.getNumTestsPerEvictionRun()){
+					props.put("numTestsPerEvictionRun", cNode.getNumTestsPerEvictionRun());
+				}
+				if(null!=cNode.getBlockWhenExhausted()){
+					props.put("blockWhenExhausted", cNode.getBlockWhenExhausted());
+				}
+				if(null!=cNode.getRemoveAbandonedOnBorrow()){
+					props.put("removeAbandonedOnBorrow", cNode.getRemoveAbandonedOnBorrow());
+				}
+				if(null!=cNode.getRemoveAbandonedTimeout()){
+					props.put("removeAbandonedTimeout", cNode.getRemoveAbandonedTimeout());
+				}
 				
 				String host=props.getProperty("host", "localhost");
 				int port=Integer.parseInt(props.getProperty("port", "8888"));
