@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ssdbj>
-	<ssdb_node id="m_userinfo"   master="true"  host="192.168.0.226" port="8888"  user="" password="abcdefghijklmnopqrstuvwxyz1234567890" loginTimeout="3" tcpKeepAlive="true" protocolName="ssdb" />
-	<ssdb_node id="s_userinfo1"  master="false" host="192.168.0.226" port="8889"  user="" password="abcdefghijklmnopqrstuvwxyz1234567890" loginTimeout="3" tcpKeepAlive="true" protocolName="ssdb" />
+	<ssdb_node id="m_userinfo"   master="true"  host="192.168.0.226" port="8888"  user="" password="abcdefghijklmnopqrstuvwxyz1234567890" loginTimeout="3" tcpKeepAlive="true" protocolName="ssdb" 
+		maxTotal="200" maxIdle="10" minIdle="5" testWhileIdle="true"
+	/>
+	<ssdb_node id="s_userinfo1"  master="false" host="192.168.0.226" port="8889"  user="" password="abcdefghijklmnopqrstuvwxyz1234567890" loginTimeout="3" tcpKeepAlive="true" protocolName="ssdb" 
+		maxTotal="200" maxIdle="10" minIdle="5" testWhileIdle="true"
+	/>
 	<!-- 
 	<ssdb_node id="s_userinfo2"  master="false" host="192.168.0.226" port="8890"  user="" password="abcdefghijklmnopqrstuvwxyz1234567890" loginTimeout="3" tcpKeepAlive="true" protocolName="ssdb" />
  	-->

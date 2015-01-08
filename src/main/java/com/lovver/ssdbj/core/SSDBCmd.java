@@ -23,6 +23,7 @@ public enum SSDBCmd {
 	MULTI_GET("multi_get",true),
 	MULTI_SET("multi_set",false),
 	MULTI_DEL("multi_del",false),
+	PING("ping",false),
 	;
 	
 	private SSDBCmd(String cmd,boolean slave){

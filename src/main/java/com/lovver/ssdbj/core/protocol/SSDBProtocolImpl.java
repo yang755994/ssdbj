@@ -256,10 +256,17 @@ public class SSDBProtocolImpl implements Protocol{
 								return new SSDBResultSet<Map<byte[], byte[]>>(status,result,items);
 							}
 							
+							if(cmd_t.equals(SSDBCmd.PING.getCmd())){
+								String status=new String(result.get(0));
+								return new SSDBResultSet<Map<byte[], byte[]>>(status,result,null);
+							}
+							
 						}catch(Exception e){
 							return new SSDBResultSet("error",e);
 						}
-						return null;
+						
+//						String status=new String(result.get(0));
+						return null;//new SSDBResultSet<Map<byte[], byte[]>>(status,result,null);
 					}
 					
 					private List<byte[]> keys = new ArrayList<byte[]>();
