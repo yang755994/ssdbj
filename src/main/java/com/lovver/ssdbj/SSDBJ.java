@@ -27,7 +27,7 @@ public class SSDBJ {
 		load(null);
 	}
 	
-	private static void load(String ssdbj_file){
+	public static void load(String ssdbj_file){
 		if(StringUtils.isEmpty(ssdbj_file)){
 			ssdbj_file=DEFAULT_SSDBJ_FILE;
 		}
