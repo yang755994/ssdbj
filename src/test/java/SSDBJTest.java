@@ -20,8 +20,9 @@ public class SSDBJTest {
 		info.setProperty("user", "test");
 		info.setProperty("password", "ddd");
 		info.setProperty("loginTimeout", "300");
+		info.setProperty("so_timeout", "3000");
 		info.setProperty("tcpKeepAlive", "true");
-		info.setProperty("protocolName", "ssdb");
+		info.setProperty("protocolName", "ssdb"); 
 		info.setProperty("protocolVersion", "ddd");
 		
 		info.setProperty("SSDB_HOST", "192.168.0.226");

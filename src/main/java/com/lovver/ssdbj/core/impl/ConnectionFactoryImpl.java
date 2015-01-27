@@ -19,11 +19,15 @@ public class ConnectionFactoryImpl extends ConnectionFactory{
 		
         //  - the TCP keep alive setting
         boolean requireTCPKeepAlive = (Boolean.valueOf(info.getProperty("tcpKeepAlive")).booleanValue());
+        int so_timeout=Integer.parseInt(info.getProperty("so_timeout", "-1"));
         
 		try {
 			SSDBStream ssdbStream=new SSDBStream(host,port);
 			 // Enable TCP keep-alive probe if required.
 			ssdbStream.getSocket().setKeepAlive(requireTCPKeepAlive);
+			if(so_timeout>0){
+				ssdbStream.getSocket().setSoTimeout(so_timeout);
+			}
 
             // Do authentication (until AuthenticationOk).
             
