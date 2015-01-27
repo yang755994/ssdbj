@@ -45,6 +45,7 @@ public class SSDBJTest {
 		System.out.println(new String(rs.getResult()));
 	}
 }
+...
 
 ##Java 单db数据库连接池Demo
 ...java
@@ -113,6 +114,7 @@ public class SSDBPoolTest {
 		}
 	}
 }
+...
 
 ##Java 多个db集群测试
 ...java
@@ -130,7 +132,6 @@ public class SSDBClusterTest {
 		System.out.println(new String(rs.getResult()));
 	}
 }
-<pre>
 <?xml version="1.0" encoding="UTF-8"?>
 <ssdbj>
 	<ssdb_node id="m_userinfo"   master="true"  host="192.168.0.226" port="8888"  user="" password="abcdefghijklmnopqrstuvwxyz1234567890" loginTimeout="3" tcpKeepAlive="true" protocolName="ssdb" 
@@ -152,4 +153,4 @@ public class SSDBClusterTest {
 		</cluster>
 	</clusters>
 </ssdbj>
-<pre>
+...
