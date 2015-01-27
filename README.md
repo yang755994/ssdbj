@@ -130,7 +130,8 @@ public class SSDBClusterTest {
 		System.out.println(new String(rs.getResult()));
 	}
 }
-...xml
+<p>
+<code>
 <?xml version="1.0" encoding="UTF-8"?>
 <ssdbj>
 	<ssdb_node id="m_userinfo"   master="true"  host="192.168.0.226" port="8888"  user="" password="abcdefghijklmnopqrstuvwxyz1234567890" loginTimeout="3" tcpKeepAlive="true" protocolName="ssdb" 
@@ -152,3 +153,5 @@ public class SSDBClusterTest {
 		</cluster>
 	</clusters>
 </ssdbj>
+</code>
+</pr>
