@@ -1,11 +1,28 @@
 ssdbj
 =====
 
-SSDB nosql 数据库java驱动 
+SSDBJ是一款支持SSDB NoSQL数据库集群的驱动。
+
+功能：
+1、ssdb数据库连接池
+2、支持多个SSDB数据库的master-slave集群
+3、支持集群内部的master和slave的负载均衡，负载均衡暂时支持4中方式（Random round_robin round_robin_weight random_weight）
+4、实现了读写分离
+5、支持集群内slave获取not_found的情况下从master再次直接获取
+6、支持同步未完成时slave读取error的情况下，从master尝试或者重复在slave中尝试。尝试次数可以再配置文件中修改。
+
+具体参考 src/test/resource/ssdbj.xml
+
+ssdbj提供了3中使用方式：
+
+1、直接手动创建连接，可以参考src/test/java/SSDBJTest.java
+2、使用单库连接池，可以参考 src/test/java/SSDBPoolTest.java
+3、使用集群模式，可以参考src/test/java/SSDBClusterTest.java
+
+集群模式的配置文件可以参考src/test/resource/ssdbj.xml
 
 ## Who's using SSDBJ?
-*[职通网] (http://www.zhitongjob.com)
-![职通网](http://www.zhitongjob.com/images/logo.png)
+![职通网](http://www.zhitongjob.com/images/logo.png) [职通网] (http://www.zhitongjob.com)
 
 ##Java 单db连接demo
 ...java
