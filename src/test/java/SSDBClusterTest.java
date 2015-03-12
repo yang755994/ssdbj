@@ -15,8 +15,15 @@ public class SSDBClusterTest {
 		ArrayList params=new ArrayList();
 		params.add("joliny");
 		params.add("kkk");
-		BaseResultSet<byte[]> rs= SSDBJ.execute("userinfo_cluster",SSDBCmd.HGET,params);
+		SSDBJ.executeUpdate("userinfo_cluster",SSDBCmd.SET,params);
+		BaseResultSet<byte[]> rs= SSDBJ.execute("userinfo_cluster",SSDBCmd.GET,params);
 		System.out.println(new String(rs.getResult()));
+//		
+//		ArrayList params=new ArrayList();
+//		params.add("joliny");
+//		params.add("kkk");
+//		BaseResultSet<byte[]> rs= SSDBJ.execute("userinfo_cluster",SSDBCmd.HGET,params);
+//		System.out.println(new String(rs.getResult()));
 	}
 
 }

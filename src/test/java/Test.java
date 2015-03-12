@@ -12,7 +12,7 @@ public class Test {
 			SSDB ssdb = null;
 			try {           
 				ssdb = new SSDB("192.168.0.226", 8888,5000);                       
-				ssdb.set(k,v);  //这里的k确保每次都不同，v 平均 1M大小
+				ssdb.set(k,v);  
 				ssdb.close();
 			} catch (Exception e) {
 				if(ssdb != null){
