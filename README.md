@@ -3,21 +3,21 @@ ssdbj
 
 SSDBJ是一款支持SSDB NoSQL数据库集群的驱动。
 
-功能：
-1、ssdb数据库连接池
-2、支持多个SSDB数据库的master-slave集群
-3、支持集群内部的master和slave的负载均衡，负载均衡暂时支持4中方式（Random round_robin round_robin_weight random_weight）
-4、实现了读写分离
-5、支持集群内slave获取not_found的情况下从master再次直接获取
-6、支持同步未完成时slave读取error的情况下，从master尝试或者重复在slave中尝试。尝试次数可以再配置文件中修改。
+功能：  <br>
+1、ssdb数据库连接池  <br>
+2、支持多个SSDB数据库的master-slave集群  <br>
+3、支持集群内部的master和slave的负载均衡，负载均衡暂时支持4中方式（Random round_robin round_robin_weight random_weight）  <br>
+4、实现了读写分离  <br>
+5、支持集群内slave获取not_found的情况下从master再次直接获取  <br>
+6、支持同步未完成时slave读取error的情况下，从master尝试或者重复在slave中尝试。尝试次数可以再配置文件中修改。  <br>
 
 具体参考 src/test/resource/ssdbj.xml
 
 ssdbj提供了3中使用方式：
 
-1、直接手动创建连接，可以参考src/test/java/SSDBJTest.java
-2、使用单库连接池，可以参考 src/test/java/SSDBPoolTest.java
-3、使用集群模式，可以参考src/test/java/SSDBClusterTest.java
+1、直接手动创建连接，可以参考src/test/java/SSDBJTest.java   <br>
+2、使用单库连接池，可以参考 src/test/java/SSDBPoolTest.java  <br>
+3、使用集群模式，可以参考src/test/java/SSDBClusterTest.java  <br>
 
 集群模式的配置文件可以参考src/test/resource/ssdbj.xml
 
@@ -25,7 +25,7 @@ ssdbj提供了3中使用方式：
 ![职通网](http://www.zhitongjob.com/images/logo.png) [职通网] (http://www.zhitongjob.com)
 
 ##Java 单db连接demo
-...java
+```java
 public class SSDBJTest {
 
 	/**
@@ -62,10 +62,9 @@ public class SSDBJTest {
 		System.out.println(new String(rs.getResult()));
 	}
 }
-...
-
+```
 ##Java 单db数据库连接池Demo
-...java
+```java
 public class SSDBPoolTest {
 	static SSDBDataSource ds=null; 
 	static{
@@ -131,10 +130,9 @@ public class SSDBPoolTest {
 		}
 	}
 }
-...
-
+```
 ##Java 多个db集群测试
-...java
+```java
 public class SSDBClusterTest {
 
 	/**
@@ -149,6 +147,8 @@ public class SSDBClusterTest {
 		System.out.println(new String(rs.getResult()));
 	}
 }
+```
+```html
 <?xml version="1.0" encoding="UTF-8"?>
 <ssdbj>
 	<ssdb_node id="m_userinfo"   master="true"  host="192.168.0.226" port="8888"  user="" password="abcdefghijklmnopqrstuvwxyz1234567890" loginTimeout="3" tcpKeepAlive="true" protocolName="ssdb" 
@@ -170,4 +170,4 @@ public class SSDBClusterTest {
 		</cluster>
 	</clusters>
 </ssdbj>
-...
+```
