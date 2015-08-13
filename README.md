@@ -22,7 +22,7 @@ ssdbj提供了3中使用方式：
 集群模式的配置文件可以参考src/test/resource/ssdbj.xml
 
 ## Who's using SSDBJ?
-![职通网](http://www.zhitongjob.com/images/logo.png) [职通网] (http://www.zhitongjob.com)
+![职通网](http://www.zhitongjob.com/images/logo.png) [职通网] (http://www.zhitongjob.com) 职通网官方QQ群：175443886
 
 ##Java 单db连接demo
 ```java
