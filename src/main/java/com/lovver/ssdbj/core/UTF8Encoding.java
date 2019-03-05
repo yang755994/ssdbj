@@ -1,8 +1,8 @@
 package com.lovver.ssdbj.core;
 
-import java.io.IOException;
-
 import com.lovver.ssdbj.util.GT;
+
+import java.io.IOException;
 
 /**
  * utf-8±àÂë

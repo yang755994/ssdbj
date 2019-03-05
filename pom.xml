@@ -38,7 +38,17 @@
 	<build>
 		<finalName>ssdbj</finalName>
 		<plugins>
+			<!--  设置jdk版本 -->
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+					<encoding>UTF8</encoding>
+				</configuration>
+			</plugin>
+			<!--<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
 				<executions>
@@ -74,7 +84,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin>-->
 		</plugins>
 	</build>
 </project>
